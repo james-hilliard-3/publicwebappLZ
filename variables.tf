@@ -1,39 +1,14 @@
 
-variable "location" {
-  description = "The Azure region to deploy resources."
-  type        = string
-  default     = "East US"
-}
-
 variable "resource_prefix" {
   description = "Prefix for all resources"
   type        = string
   default     = "myapp"
 }
 
-variable "hub_rg" {
-  description = "The name of the resource group for the hub network."
+variable "location" {
+  description = "The Azure region to deploy resources."
   type        = string
-}
-
-variable "management_rg" {
-  description = "The name of the resource group for management resources."
-  type        = string
-}
-
-variable "management_vnet" {
-  description = "The name of the virtual network for management resources."
-  type        = string
-}
-
-variable "firewall_private_ip" {
-  description = "The private IP address of the Azure Firewall."
-  type        = string
-}
-
-variable "bastion_public_ip" {
-  description = "The public IP address for the Bastion Host."
-  type        = string
+  default     = "East US"
 }
 variable "environment" {
   description = "The Azure environment to use for the deployment."

@@ -1,10 +1,4 @@
 
-variable "resource_prefix" {
-  description = "Prefix for all resources"
-  type        = string
-  default     = "myapp"
-}
-
 variable "vnet_ip_ranges" {
   description = "IP ranges for the VNETs"
   type = map(string)
