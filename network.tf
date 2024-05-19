@@ -1,48 +1,14 @@
 
-# Resource Groups
 resource "azurerm_resource_group" "prod_rg" {
-  name     = var.prod_rg_name
+  name     = local.prod_rg_name
   location = var.location
 }
 
-resource "azurerm_resource_group" "qa_rg" {
-  name     = var.qa_rg_name
-  location = var.location
-}
-
-resource "azurerm_resource_group" "test_rg" {
-  name     = var.test_rg_name
-  location = var.location
-}
-
-# Virtual Networks
 resource "azurerm_virtual_network" "prod_vnet" {
-  name                = var.prod_vnet_name
-  address_space       = [var.prod_vnet_ip_range]
+  name                = local.prod_vnet_name
+  address_space       = [var.vnet_ip_ranges["prod"]]
   location            = var.location
   resource_group_name = azurerm_resource_group.prod_rg.name
-}
-
-resource "azurerm_virtual_network" "qa_vnet" {
-  name                = var.qa_vnet_name
-  address_space       = [var.qa_vnet_ip_range]
-  location            = var.location
-  resource_group_name = azurerm_resource_group.qa_rg.name
-}
-
-resource "azurerm_virtual_network" "test_vnet" {
-  name                = var.test_vnet_name
-  address_space       = [var.test_vnet_ip_range]
-  location            = var.location
-  resource_group_name = azurerm_resource_group.test_rg.name
-}
-
-# Azure Bastion Subnet
-resource "azurerm_subnet" "azure_bastion_subnet" {
-  name                 = "AzureBastionSubnet"
-  resource_group_name  = azurerm_resource_group.hub_rg.name
-  virtual_network_name = azurerm_virtual_network.hub_vnet.name
-  address_prefixes     = [var.azure_bastion_subnet_range]
 }
 # Resource Group for Hub
 resource "azurerm_resource_group" "hub_rg" {
