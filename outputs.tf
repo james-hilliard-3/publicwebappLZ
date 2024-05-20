@@ -1,12 +1,30 @@
+# Outputs
+# =====================
 
-output "prod_vnet_id" {
-  value = azurerm_virtual_network.prod_vnet.id
+# Bastion Host Public IP
+output "bastion_host_public_ip" {
+  description = "The public IP address of the Bastion Host"
+  value       = azurerm_public_ip.bastion_public_ip.ip_address
 }
 
-output "qa_vnet_id" {
-  value = azurerm_virtual_network.qa_vnet.id
+# Key Vault URI
+output "key_vault_uri" {
+  description = "The URI of the Azure Key Vault"
+  value       = azurerm_key_vault.mgmt_kv.vault_uri
 }
 
-output "test_vnet_id" {
-  value = azurerm_virtual_network.test_vnet.id
+# Recovery Services Vault ID
+output "recovery_services_vault_id" {
+  description = "The ID of the Recovery Services Vault"
+  value       = azurerm_recovery_services_vault.mgmt_rsv.id
+}
+
+# App Gateway Public IP
+output "app_gateway_public_ip" {
+  value = azurerm_public_ip.appgw_public_ip.ip_address
+}
+
+# Firewall Public IP
+output "firewall_public_ip" {
+  value = azurerm_public_ip.fw_public_ip.ip_address
 }
