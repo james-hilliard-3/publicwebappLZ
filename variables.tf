@@ -63,7 +63,7 @@ variable "prod_vnet_cidr" {
 
 variable "qa_vnet_cidr" {
   description = "CIDR block for the QA VNET"
-  default     = "10.2.0.0/24"
+  default     = "10.4.0.0/24"
 }
 
 variable "test_vnet_cidr" {

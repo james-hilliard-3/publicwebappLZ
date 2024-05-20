@@ -117,6 +117,30 @@ resource "azurerm_subnet" "entra_ds_subnet" {
   address_prefixes     = [var.entra_ds_subnet_prefix]
 }
 
+# Subnet for Prod VNet
+resource "azurerm_subnet" "prod_subnet" {
+  name                 = "prod-subnet"
+  resource_group_name  = azurerm_resource_group.prod.name
+  virtual_network_name = azurerm_virtual_network.prod.name
+  address_prefixes     = ["10.1.0.0/24"]
+}
+
+# Subnet for QA VNet
+resource "azurerm_subnet" "qa_subnet" {
+  name                 = "qa-subnet"
+  resource_group_name  = azurerm_resource_group.qa.name
+  virtual_network_name = azurerm_virtual_network.qa.name
+  address_prefixes     = ["10.4.0.0/24"]
+}
+
+# Subnet for Test VNet
+resource "azurerm_subnet" "test_subnet" {
+  name                 = "test-subnet"
+  resource_group_name  = azurerm_resource_group.test.name
+  virtual_network_name = azurerm_virtual_network.test.name
+  address_prefixes     = ["10.3.0.0/24"]
+}
+
 # Network Security Groups (NSGs)
 # =====================
 
@@ -303,13 +327,12 @@ resource "azurerm_virtual_network_peering" "test_to_hub_peering" {
 
 # Azure Key Vault in Management RG
 resource "azurerm_key_vault" "mgmt_kv" {
-  name                = "mgmt-kv"
+  name                = "mgmt12345-kv"
   location            = azurerm_resource_group.mgmt_rg.location
   resource_group_name = azurerm_resource_group.mgmt_rg.name
   tenant_id           = var.tenant_id
   sku_name            = "standard"
-
-  soft_delete_enabled = true
+  
 }
 
 # Recovery Services Vault in Management RG with GRS redundancy
@@ -318,7 +341,7 @@ resource "azurerm_recovery_services_vault" "mgmt_rsv" {
   location            = azurerm_resource_group.mgmt_rg.location
   resource_group_name = azurerm_resource_group.mgmt_rg.name
   sku                 = "Standard"
-  redundancy          = "GRS"
+  
 }
 
 # Bastion Host
@@ -328,12 +351,8 @@ resource "azurerm_bastion_host" "bastion" {
   name                = "bastion-host"
   location            = azurerm_resource_group.hub_rg.location
   resource_group_name = azurerm_resource_group.hub_rg.name
-  dns_name            = "bastion${random_string.prefix.result}.eastus.azure.bastion"
-
-  sku {
-    name = "Basic"
-  }
-
+  sku                 = "Basic"
+  
   ip_configuration {
     name                 = "configuration"
     subnet_id            = azurerm_subnet.bastion_subnet.id

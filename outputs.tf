@@ -26,5 +26,6 @@ output "app_gateway_public_ip" {
 
 # Firewall Public IP
 output "firewall_public_ip" {
-  value = azurerm_public_ip.fw_public_ip.ip_address
+  description = "The public IP address of the Azure Firewall"
+  value       = azurerm_public_ip.firewall_public_ip.ip_address  # Corrected resource name
 }
